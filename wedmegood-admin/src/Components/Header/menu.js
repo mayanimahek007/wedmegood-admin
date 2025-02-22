@@ -18,7 +18,7 @@ const Menu = () => {
                     <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="align-items-center d-flex fs-4 mb-lg-5 me-0 navbar-brand px-lg-6 py-lg-2 gap-1" href="/">
+                    <a class="align-items-center d-flex fs-4 mb-lg-5 me-0 navbar-brand px-lg-6 py-lg-2 gap-1" href="/dashboard">
                         <img src={require('../../Images/logo1.png')} alt="..." /><span>Wed<b className='text_primary'>Me</b>Good
                         </span>
                     </a>
@@ -45,7 +45,7 @@ const Menu = () => {
                                 <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/">
                                     <i className="bi bi-house"></i> Dashboard
                                 </NavLink>
-                                {/* <a class="nav-link" href="/">
+                                {/* <a class="nav-link" href="/dashboard">
                                     <i class="bi bi-house"></i> Dashboard
                                 </a> */}
                             </li>
@@ -114,7 +114,7 @@ const Menu = () => {
                         <hr className="navbar-divider my-5 opacity-70" />
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/login">
+                                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/">
                                     <i className="bi bi-box-arrow-left"></i> Logout
                                 </NavLink>
                             </li>
