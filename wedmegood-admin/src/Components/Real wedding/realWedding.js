@@ -106,7 +106,7 @@ const RealWedding = () => {
             }
         } catch (error) {
             console.error("API Error:", error);
-            alert("Something went wrong! Please try again.");
+            alert("Wedding Date Already Booked:");
         } finally {
             setLoading(false);
         }
@@ -153,7 +153,7 @@ const RealWedding = () => {
             }
         } catch (error) {
             console.error("API Error:", error);
-            alert("Something went wrong! Please try again.");
+            alert("Wedding Date Already Booked:");
         } finally {
             setLoading(false);
         }

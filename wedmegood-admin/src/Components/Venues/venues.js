@@ -114,7 +114,7 @@ const Venues = () => {
             }
         } catch (error) {
             console.error("API Error:", error);
-            alert("Something went wrong! Please try again.");
+            alert("already Exists!");
         } finally {
             setLoading(false);
         }
@@ -166,7 +166,7 @@ const Venues = () => {
             }
         } catch (error) {
             console.error("API Error:", error);
-            alert("Something went wrong! Please try again.");
+            alert("already Exists!");
         } finally {
             setLoading(false);
         }

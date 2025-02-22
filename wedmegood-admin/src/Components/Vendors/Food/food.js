@@ -98,7 +98,7 @@ const Food = () => {
       }
     } catch (error) {
       console.error("Error adding photographer:", error);
-      alert("Error while adding photographer. Please try again.");
+        alert("already Exists!");
     } finally {
       setLoading(false); // ✅ Loading state OFF
     }
@@ -179,7 +179,7 @@ const Food = () => {
       }
     } catch (error) {
       console.error("API Error:", error);
-      alert("Something went wrong! Please try again.");
+      alert("already Exists!");
     } finally {
       setLoading(false);
     }
