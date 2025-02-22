@@ -227,9 +227,40 @@ const RealWedding = () => {
                                                         <td>{photographer.realWeddingBrideName}</td>
                                                         <td>{photographer.realWeddingGroomName}</td>
                                                         <td>{photographer.realWeddingLocation}</td>
-                                                        <td>{photographer.realWeddingDate}</td>
+                                                        <td>{new Date(photographer.realWeddingDate).toLocaleDateString()}</td>
                                                         <td>{photographer.realWeddingDes}</td>
-                                                        <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.realWeddingImage}</td>
+                                                        {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.realWeddingImage}</td> */}
+                                                        <td>
+                                                            <div className="d-flex align-items-center">
+                                                                {Array.isArray(photographer.realWeddingImage) ? (
+                                                                    photographer.realWeddingImage.slice(0, 3).map((img, idx) => (
+                                                                        <img
+                                                                            key={idx}
+                                                                            src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                        />
+                                                                    ))
+                                                                ) : (
+                                                                    <img
+                                                                        src={typeof photographer.realWeddingImage === 'string' ? photographer.realWeddingImage : URL.createObjectURL(photographer.realWeddingImage)}
+                                                                        alt="Wedding"
+                                                                        className="avatar avatar-md rounded-circle border"
+                                                                        style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                    />
+                                                                )}
+                                                                {Array.isArray(photographer.realWeddingImage) && photographer.realWeddingImage.length > 3 && (
+                                                                    <span
+                                                                        className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                        style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                    >
+                                                                        +{photographer.realWeddingImage.length - 3}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </td>
+
                                                         <td>
                                                             {/* <button className="btn btn-sm btn-neutral">View</button> */}
                                                             <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
@@ -239,6 +270,7 @@ const RealWedding = () => {
                                                             {/* <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>View</button> */}
                                                             <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographer.id)}>Delete</button>
                                                         </td>
+                                                        <td></td>
                                                     </tr>
                                                 ))
                                             ) : (
@@ -274,7 +306,7 @@ const RealWedding = () => {
                                     <button className='button_primary_contect p-3 rounded-10 d-flex gap-4 justify-content-center align-items-center' style={{ width: '100%' }}><FontAwesomeIcon icon={faPhone} />View Contact</button>
                                 </div>
 
-                                <form className="mt-5">
+                                <div className="mt-5">
                                     <div className="d-flex gap-3">
                                         <div style={{ width: '100%' }}>
                                             <input type="text" className="form-control" placeholder="Bride Name" style={{ width: "100%" }} value={realWeddingBrideName}
@@ -333,29 +365,6 @@ const RealWedding = () => {
                                             />
                                         </div>
 
-                                        {/* Preview Section */}
-                                        {/* {realWeddingImage.length > 0 && (
-                                            <div className="mt-3 d-flex flex-wrap gap-3">
-                                                {realWeddingImage.map((image, index) => (
-                                                    <div className="position-relative" key={index}>
-                                                        <img
-                                                            src={URL.createObjectURL(image)}
-                                                            alt="Uploaded"
-                                                            className="img-fluid rounded"
-                                                            style={{ width: "120px", height: "120px", objectFit: "cover" }}
-                                                        />
-                                                        <button
-                                                            onClick={() => removeFile(index)}
-                                                            className="btn btn-danger btn-sm position-absolute"
-                                                            style={{ top: "5px", right: "5px" }}
-                                                        >
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )} */}
-                                        {/* Preview Section */}
                                         {realWeddingImage.length > 0 && (
                                             <div className="mt-3 d-flex flex-wrap gap-3">
                                                 {realWeddingImage.map((image, index) => (
@@ -390,7 +399,7 @@ const RealWedding = () => {
 
                                         {/* <button className="btn button_primary mt-5 mb-5" style={{ width: '100%' }} onClick={handleSubmit}>Check Availability & Prices</button> */}
                                     </div>
-                                </form>
+                                </div>
                             </div>
 
                         </div>

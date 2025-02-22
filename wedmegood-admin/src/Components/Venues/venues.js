@@ -157,7 +157,9 @@ const Venues = () => {
             });
 
             if (res.status === 200) {
-                getPhotographerData(); // Refresh list
+                getPhotographerData();
+                clearVal();
+
                 setShowModal(false);
             } else {
                 console.error('Error: Venue update failed');
@@ -284,7 +286,7 @@ const Venues = () => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h4 className="modal-title">Create Venue</h4>
-                                <button type="button" className="btn-close" onClick={() => { setShowModal(false); clearVal() }}></button>
+                                <button type="button" className="btn-close" onClick={() => { setShowModal(false); clearVal(); }}></button>
                             </div>
                             <div className="modal-body">
                                 <div className='d-flex justify-content-between gap-2'>
@@ -292,7 +294,7 @@ const Venues = () => {
                                     <button className='button_primary_contect p-3 rounded-10 d-flex gap-4 justify-content-center align-items-center' style={{ width: '100%' }}><FontAwesomeIcon icon={faPhone} />View Contact</button>
                                 </div>
 
-                                <form className="mt-5">
+                                <div className="mt-5">
                                     <div className="d-flex gap-3">
                                         <div style={{ width: '100%' }}>
                                             <input type="text" className="form-control" placeholder="Name" style={{ width: "100%" }} value={venueName}
@@ -381,7 +383,7 @@ const Venues = () => {
 
                                         {/* <button className="btn button_primary mt-5 mb-5" style={{ width: '100%' }} onClick={handleSubmit}>Check Availability & Prices</button> */}
                                     </div>
-                                </form>
+                                </div>
                             </div>
 
                         </div>

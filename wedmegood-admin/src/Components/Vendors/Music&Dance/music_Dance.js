@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './photographer.css'
+import '../Photographer/photographer.css'
 import Header from '../../Header/header'
 import Menu from '../../Header/menu'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
@@ -15,7 +15,7 @@ import { RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import axios from 'axios'
 
 
-const Photographer = () => {
+const MusicDance = () => {
   const [photographers, setPhotographers] = useState([]);
   const [photographerName, setPhotographerName] = useState("");
   const [photographerPriceInfo, setPhotographerPriceInfo] = useState("");
@@ -46,7 +46,7 @@ const Photographer = () => {
   };
 
   const getPhotographerData = () => {
-    axios.get('http://localhost:3000/api/v1/photographer/get')
+    axios.get('http://localhost:3000/api/v1/music/get')
       .then(response => {
         setPhotographers(response.data); // Update state with API response
       })
@@ -60,21 +60,21 @@ const Photographer = () => {
 
   const addPhoto = async () => {
     const formData = new FormData();
-    formData.append("photographerName", photographerName);
-    formData.append("photographerPriceInfo", photographerPriceInfo);
-    formData.append("photographerPrice", photographerPrice);
-    formData.append("photographerNumber", photographerNumber);
-    formData.append("photographerDetails", photographerDetails);
-    formData.append("photographerEmail", photographerEmail);
-    formData.append("photographerDate", photographerDate);
+    formData.append("musicName", photographerName);
+    formData.append("musicPriceInfo", photographerPriceInfo);
+    formData.append("musicPrice", photographerPrice);
+    formData.append("musicNumber", photographerNumber);
+    formData.append("musicDetails", photographerDetails);
+    formData.append("musicEmail", photographerEmail);
+    formData.append("musicDate", photographerDate);
 
     photographerMedia.forEach((image, index) => {
-      formData.append(`photographerMedia`, image); // Multiple files support
+      formData.append(`musicMedia`, image); // Multiple files support
     });
 
     try {
       setLoading(true); // ✅ Loading state ON
-      const res = await axios.post("http://localhost:3000/api/v1/photographer/create", formData, {
+      const res = await axios.post("http://localhost:3000/api/v1/music/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -106,14 +106,14 @@ const Photographer = () => {
 
   const handleEdit = (venue) => {
     setServiceId(venue.id); // Store ID for update API call
-    setPhotographerName(venue.photographerName);
-    setPhotographerPriceInfo(venue.photographerPriceInfo);
-    setPhotographerPrice(venue.photographerPrice);
-    setPhotographerNumber(venue.photographerNumber);
-    setPhotographerDetails(venue.photographerDetails);
-    setPhotographerEmail(venue.photographerEmail);
-    setPhotographerDate(venue.photographerDate);
-    setPhotographerMedia(Array.isArray(venue.photographerMedia) ? venue.photographerMedia : [venue.photographerMedia]);
+    setPhotographerName(venue.musicName);
+    setPhotographerPriceInfo(venue.musicPriceInfo);
+    setPhotographerPrice(venue.musicPrice);
+    setPhotographerNumber(venue.musicNumber);
+    setPhotographerDetails(venue.musicDetails);
+    setPhotographerEmail(venue.musicEmail);
+    setPhotographerDate(venue.musicDate);
+    setPhotographerMedia(Array.isArray(venue.musicMedia) ? venue.musicMedia : [venue.musicMedia]);
 
     setShowModal(true); // Open modal
   };
@@ -134,7 +134,7 @@ const Photographer = () => {
 
     try {
       setLoading(true);
-      const res = await axios.delete(`http://localhost:3000/api/v1/photographer/delete/${id}`);
+      const res = await axios.delete(`http://localhost:3000/api/v1/music/delete/${id}`);
 
       if (res.status === 200) {
         getPhotographerData(); // Refresh list after deletion
@@ -149,30 +149,30 @@ const Photographer = () => {
 
   const updateVenueData = async (id) => {
     const formData = new FormData();
-    formData.append("photographerName", photographerName);
-    formData.append("photographerPriceInfo", photographerPriceInfo);
-    formData.append("photographerPrice", photographerPrice);
-    formData.append("photographerNumber", photographerNumber);
-    formData.append("photographerDetails", photographerDetails);
-    formData.append("photographerEmail", photographerEmail);
-    formData.append("photographerDate", photographerDate);
+    formData.append("musicName", photographerName);
+    formData.append("musicPriceInfo", photographerPriceInfo);
+    formData.append("musicPrice", photographerPrice);
+    formData.append("musicNumber", photographerNumber);
+    formData.append("musicDetails", photographerDetails);
+    formData.append("musicEmail", photographerEmail);
+    formData.append("musicDate", photographerDate);
+
 
 
     photographerMedia.forEach((image) => {
       if (typeof image !== 'string') {  // Only append if it's a new file
-        formData.append(`photographerMedia`, image);
+        formData.append(`musicMedia`, image);
       }
     });
     try {
       setLoading(true);
-      const res = await axios.put(`http://localhost:3000/api/v1/photographer/update/${id}`, formData, {
+      const res = await axios.put(`http://localhost:3000/api/v1/music/update/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (res.status === 200) {
-        getPhotographerData(); 
-        clearVal();
-
+        getPhotographerData();
+        clearVal()
         setShowModal(false);
       } else {
         console.error('Error: Venue update failed');
@@ -196,7 +196,7 @@ const Photographer = () => {
               <div class="mb-npx">
                 <div class="row align-items-center">
                   <div class="col-sm-6 col-12 mb-4 mb-sm-0">
-                    <h1 class="h2 mb-0 ls-tight">Photographer</h1>
+                    <h1 class="h2 mb-0 ls-tight">Music & Dance</h1>
                   </div>
                   <div class="col-sm-6 col-12 text-sm-end">
                     <div class="mx-n1">
@@ -233,7 +233,7 @@ const Photographer = () => {
 
               <div class="card shadow border-0 mb-7">
                 <div class="card-header">
-                  <h5 class="mb-0">photographer</h5>
+                  <h5 class="mb-0">Music & Dance</h5>
                 </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-nowrap">
@@ -255,14 +255,14 @@ const Photographer = () => {
                       {photographers.length > 0 ? (
                         photographers.map((photographer, index) => (
                           <tr key={index}>
-                            <td>{photographer.photographerName}</td>
-                            <td>{new Date(photographer.photographerDate).toLocaleDateString()}</td>
-                            <td>{photographer.photographerEmail}</td>
-                            <td>{photographer.photographerNumber}</td>
-                            <td>${photographer.photographerPrice}</td>
-                            <td>{photographer.photographerPriceInfo}</td>
-                            <td>{photographer.photographerDetails}</td>
-                            <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.photographerMedia}</td>
+                            <td>{photographer.musicName}</td>
+                            <td>{new Date(photographer.musicDate).toLocaleDateString()}</td>
+                            <td>{photographer.musicEmail}</td>
+                            <td>{photographer.musicNumber}</td>
+                            <td>${photographer.musicPrice}</td>
+                            <td>{photographer.musicPriceInfo}</td>
+                            <td>{photographer.musicDetails}</td>
+                            <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.musicMedia}</td>
                             <td>
                               <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
                                 <i class="bi bi-pencil"></i>
@@ -296,7 +296,7 @@ const Photographer = () => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h4 className="modal-title">Create Photographer</h4>
+                <h4 className="modal-title">Create Music & Dance</h4>
                 <button type="button" className="btn-close" onClick={() => {
                   setShowModal(false);
                   clearVal()
@@ -435,4 +435,4 @@ const Photographer = () => {
   )
 }
 
-export default Photographer
+export default MusicDance

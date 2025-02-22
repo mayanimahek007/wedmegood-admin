@@ -89,6 +89,7 @@ const User = () => {
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Phone</th>
                                                 <th></th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -99,6 +100,7 @@ const User = () => {
                                                         <td>{user.lastName}</td>
                                                         <td>{user.email}</td>
                                                         <td>{user.phone}</td>
+                                                        <td></td>
                                                         <td>
                                                             {/* <button className="btn btn-sm btn-neutral">View</button> */}
                                                             {/* <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(user)}>  <span class=" pe-2">
@@ -106,7 +108,7 @@ const User = () => {
                                                             </span>
                                                                 <span>Edit</span></button> */}
                                                             {/* <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(user)}>View</button> */}
-                                                            <button className="btn btn-sm btn-danger ms-2" onClick={() => deleteUser(user.id)}>Delete</button>
+                                                            <button className="btn btn-sm btn-danger" onClick={() => deleteUser(user.id)}>Delete</button>
                                                         </td>
                                                     </tr>
                                                 ))

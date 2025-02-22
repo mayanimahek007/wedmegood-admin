@@ -1,14 +1,202 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './dashboard.css';
 import Header from '../Header/header';
 import Menu from '../Header/menu';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Service from './../Service/service';
+import Photographer from './../Vendors/Photographer/photographer';
+import MakeUp from './../Vendors/MakeUp/makeUp';
 
 const Dashboard = () => {
+    const [photographers, setPhotographers] = useState([]);
+    const [music, setMusic] = useState([]);
+    const [planning, setPlanning] = useState([]);
+    const [photographersDsh, setPhotographersDsh] = useState([]);
+    const [photographersRl, setPhotographersRl] = useState([]);
+    const [photographersFd, setPhotographersFd] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [Service, setService] = useState([]);
+    const [venues, setVenues] = useState([]);
+    const [highestPhographerPrice, setHighestPhotographerPrice] = useState(0);
+    const [highestVenuePrice, setHighestVenuePrice] = useState(0);
+
+    const navigate = useNavigate();
+
+
+    const getService = () => {
+        axios.get('http://localhost:3000/api/v1/service/get')
+            .then(response => {
+                setService(response.data); // Update state with API response
+            })
+            .catch(error => {
+                console.error('Error fetching service:', error);
+            });
+    }
+
+    const getPhotographeMusic = () => {
+        axios.get('http://localhost:3000/api/v1/music/get')
+            .then(response => {
+                const allPhotographers = response.data;
+                if (allPhotographers.length > 0) {
+                    // Find the maximum price
+                    const maxPrice = Math.max(...allPhotographers.map(p => p.musicPrice));
+
+                    // Filter photographers who have the highest price
+                    const highestPricedPhotographers = allPhotographers.filter(p => p.musicPrice === maxPrice);
+
+                    setMusic(highestPricedPhotographers); // Set all photographers with the highest price
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching photographers:', error);
+            });
+    }
+    const getPlanning = () => {
+        axios.get('http://localhost:3000/api/v1/planningDecor/get')
+            .then(response => {
+                const allPhotographers = response.data;
+                if (allPhotographers.length > 0) {
+                    // Find the maximum price
+                    const maxPrice = Math.max(...allPhotographers.map(p => p.planningPrice));
+
+                    // Filter photographers who have the highest price
+                    const highestPricedPhotographers = allPhotographers.filter(p => p.planningPrice === maxPrice);
+
+                    setPlanning(highestPricedPhotographers); // Set all photographers with the highest price
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching photographers:', error);
+            });
+    }
+
+    const getUser = () => {
+        axios.get('http://localhost:3000/api/v1/auth/getUsers')
+            .then(response => {
+                console.log('response.data.users', response.data.users)
+                setUsers(response.data.users); // Update state with API response
+            })
+            .catch(error => {
+                console.error('Error fetching service:', error);
+            });
+
+    }
+    const getPhotographerData = () => {
+        axios.get('http://localhost:3000/api/v1/realWedding/get')
+            .then(response => {
+                setPhotographersRl(response.data); // Update state with API response
+            })
+            .catch(error => {
+                console.error('Error fetching service:', error);
+            });
+    }
+
+    const getPhotographerDataMkp = () => {
+        axios.get('http://localhost:3000/api/v1/makeup/get')
+            .then(response => {
+                const allPhotographers = response.data;
+                if (allPhotographers.length > 0) {
+                    // Find the maximum price
+                    const maxPrice = Math.max(...allPhotographers.map(p => p.makeupPrice));
+
+                    // Filter photographers who have the highest price
+                    const highestPricedPhotographers = allPhotographers.filter(p => p.makeupPrice === maxPrice);
+
+                    setPhotographers(highestPricedPhotographers); // Set all photographers with the highest price
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching photographers:', error);
+            });
+    };
+
+    const getPhotographerFoodData = () => {
+        axios.get('http://localhost:3000/api/v1/food/get')
+            .then(response => {
+                const allPhotographers = response.data;
+                if (allPhotographers.length > 0) {
+                    // Find the photographer with the highest price
+                    const highestPricedPhotographer = allPhotographers.reduce((prev, current) =>
+                        prev.foodPrice > current.foodPrice ? prev : current
+                    );
+                    setPhotographersFd([highestPricedPhotographer]); // Set only the highest-priced photographer
+                } // Update state with API response
+
+                const allPhotographerss = response.data;
+                if (allPhotographerss.length > 0) {
+                    // Find the maximum price
+                    const maxPrice = Math.max(...allPhotographerss.map(p => p.foodPrice));
+
+                    // Filter photographers who have the highest price
+                    const highestPricedPhotographers = allPhotographerss.filter(p => p.foodPrice === maxPrice);
+
+                    setPhotographersFd(highestPricedPhotographers); // Set all photographers with the highest price
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching photographers:', error);
+            });
+    }
+
+    const getVenue = () => {
+        axios.get('http://localhost:3000/api/v1/venue/get')
+            .then(response => {
+                setVenues(response.data); // Store all venues
+                if (response.data.length > 0) {
+                    // Find the venue with the highest price
+                    const maxPrice = Math.max(...response.data.map(venue => venue.venuePrice));
+                    setHighestVenuePrice(maxPrice);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching venues:', error);
+            });
+    }
+    const getPhotographer = () => {
+        axios.get('http://localhost:3000/api/v1/photographer/get')
+            .then(response => {
+                setVenues(response.data); // Store all venues
+                if (response.data.length > 0) {
+                    // Find the venue with the highest price
+                    const maxPrice = Math.max(...response.data.map(venue => venue.photographerPrice));
+                    setHighestPhotographerPrice(maxPrice);
+                }
+
+                const allPhotographers = response.data;
+                if (allPhotographers.length > 0) {
+                    // Find the maximum price
+                    const maxPrice = Math.max(...allPhotographers.map(p => p.photographerPrice));
+
+                    // Filter photographers who have the highest price
+                    const highestPricedPhotographers = allPhotographers.filter(p => p.photographerPrice === maxPrice);
+
+                    setPhotographersDsh(highestPricedPhotographers); // Set all photographers with the highest price
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching venues:', error);
+            });
+    }
+
+
+    useEffect(() => {
+        getPhotographer();
+        getPhotographerData();
+        getPhotographerFoodData();
+        getPhotographerDataMkp();
+        getUser();
+        getService();
+        getVenue();
+        getPhotographeMusic();
+        getPlanning();
+    }, [])
+
     return (
         <>
             <Header />
             <div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
-            <Menu />
+                <Menu />
 
                 <div class="h-screen flex-grow-1 overflow-y-lg-auto dash_scroll">
                     <header class="bg-surface-primary border-bottom pt-6 pb-6">
@@ -18,9 +206,9 @@ const Dashboard = () => {
                                     <div class="col-sm-6 col-12 mb-4 mb-sm-0">
                                         <h1 class="h2 mb-0 ls-tight">Dashboard</h1>
                                     </div>
-                                   
+
                                 </div>
-                               
+
                             </div>
                         </div>
                     </header>
@@ -32,8 +220,8 @@ const Dashboard = () => {
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Budget</span>
-                                                    <span class="h3 font-bold mb-0">$750.90</span>
+                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Venue Budget</span>
+                                                    <span class="h3 font-bold mb-0">${highestVenuePrice}</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -55,8 +243,31 @@ const Dashboard = () => {
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">New projects</span>
-                                                    <span class="h3 font-bold mb-0">215</span>
+                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Vendor Budget</span>
+                                                    <span class="h3 font-bold mb-0">${highestPhographerPrice}</span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                                        <i class="bi bi-credit-card"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 mb-0 text-sm">
+                                                <span class="badge badge-pill bg-soft-success text-success me-2">
+                                                    <i class="bi bi-arrow-up me-1"></i>10%
+                                                </span>
+                                                <span class="text-nowrap text-xs text-muted">Since last month</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 col-12">
+                                    <div class="card shadow border-0">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total User</span>
+                                                    <span class="h3 font-bold mb-0">{users.length}</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -78,8 +289,8 @@ const Dashboard = () => {
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total hours</span>
-                                                    <span class="h3 font-bold mb-0">1.400</span>
+                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Services</span>
+                                                    <span class="h3 font-bold mb-0">{Service.length}</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
@@ -96,33 +307,11 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-sm-6 col-12">
-                                    <div class="card shadow border-0">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Work load</span>
-                                                    <span class="h3 font-bold mb-0">95%</span>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
-                                                        <i class="bi bi-minecart-loaded"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-2 mb-0 text-sm">
-                                                <span class="badge badge-pill bg-soft-success text-success me-2">
-                                                    <i class="bi bi-arrow-up me-1"></i>10%
-                                                </span>
-                                                <span class="text-nowrap text-xs text-muted">Since last month</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="card shadow border-0 mb-7">
                                 <div class="card-header">
-                                    <h5 class="mb-0">Applications</h5>
+                                    <h5 class="mb-0">Higher Range</h5>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-hover table-nowrap">
@@ -130,324 +319,249 @@ const Dashboard = () => {
                                             <tr>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Date</th>
-                                                <th scope="col">Company</th>
-                                                <th scope="col">Offer</th>
-                                                <th scope="col">Meeting</th>
+                                                <th scope="col">Number</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Images</th>
+                                                <th scope="col">Details</th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Robert Fox
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Feb 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-1.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Dribbble
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $3.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-success"></i>Scheduled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Darlene Robertson
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Apr 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-2.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Netguru
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $2.750
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-warning"></i>Postponed
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Theresa Webb
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Mar 20, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-3.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Figma
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $4.200
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-success"></i>Scheduled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Kristin Watson
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Feb 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-4.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Mailchimp
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $3.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-dark"></i>Not discussed
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Cody Fisher
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Apr 10, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-5.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Webpixels
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $1.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-danger"></i>Canceled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Robert Fox
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Feb 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-1.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Dribbble
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $3.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-success"></i>Scheduled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Darlene Robertson
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Apr 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-2.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Netguru
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $2.750
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-warning"></i>Postponed
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Theresa Webb
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Mar 20, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-3.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Figma
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $4.200
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-success"></i>Scheduled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Kristin Watson
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Feb 15, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-4.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Mailchimp
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $3.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-dark"></i>Not discussed
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img alt="..." src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Cody Fisher
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    Apr 10, 2021
-                                                </td>
-                                                <td>
-                                                    <img alt="..." src="https://preview.webpixels.io/web/img/other/logos/logo-5.png" class="avatar avatar-xs rounded-circle me-2" />
-                                                    <a class="text-heading font-semibold" href="#">
-                                                        Webpixels
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    $1.500
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-lg badge-dot">
-                                                        <i class="bg-danger"></i>Canceled
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-neutral">View</a>
-                                                    <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            {/* First Row: photographers */}
+                                            {photographers.length > 0 && (
+                                                <tr onClick={() => { navigate('/make-up') }}>
+                                                    {photographers.map((user, index) => (
+                                                        <React.Fragment key={index} >
+                                                            <td>{user.makeupName} (MakeUp)</td>
+                                                            <td>{new Date(user.makeupDate).toLocaleDateString()}</td>
+                                                            <td>{user.makeupNumber}</td>
+                                                            <td>{user.makeupPrice}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    {Array.isArray(user.makeupMedia) ? (
+                                                                        user.makeupMedia.slice(0, 3).map((img, idx) => (
+                                                                            <img
+                                                                                key={idx}
+                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                alt="Wedding"
+                                                                                className="avatar avatar-md rounded-circle border"
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            />
+                                                                        ))
+                                                                    ) : (
+                                                                        <img
+                                                                            src={typeof user.makeupMedia === 'string' ? user.makeupMedia : URL.createObjectURL(user.makeupMedia)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                        />
+                                                                    )}
+                                                                    {Array.isArray(user.makeupMedia) && user.makeupMedia.length > 3 && (
+                                                                        <span
+                                                                            className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                            style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                        >
+                                                                            +{user.makeupMedia.length - 3}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td>{user.makeupDetails}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tr>
+                                            )}
+
+                                            {/* Second Row: photographersDsh */}
+                                            {photographersDsh.length > 0 && (
+                                                <tr onClick={() => { navigate('/photographer') }}>
+                                                    {photographersDsh.map((user, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <td>{user.photographerName} (Photographer)</td>
+                                                            <td>{new Date(user.photographerDate).toLocaleDateString()}</td>
+                                                            <td>{user.photographerNumber}</td>
+                                                            <td>{user.photographerPrice}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    {Array.isArray(user.photographerMedia) ? (
+                                                                        user.photographerMedia.slice(0, 3).map((img, idx) => (
+                                                                            <img
+                                                                                key={idx}
+                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                alt="Wedding"
+                                                                                className="avatar avatar-md rounded-circle border"
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            />
+                                                                        ))
+                                                                    ) : (
+                                                                        <img
+                                                                            src={typeof user.photographerMedia === 'string' ? user.photographerMedia : URL.createObjectURL(user.photographerMedia)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                        />
+                                                                    )}
+                                                                    {Array.isArray(user.photographerMedia) && user.photographerMedia.length > 3 && (
+                                                                        <span
+                                                                            className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                            style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                        >
+                                                                            +{user.photographerMedia.length - 3}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td>{user.photographerDetails}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tr>
+                                            )}
+
+                                            {music.length > 0 && (
+                                                <tr onClick={() => { navigate('/photographer') }}>
+                                                    {music.map((user, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <td>{user.musicName} (Music & Dance)</td>
+                                                            <td>{new Date(user.musicDate).toLocaleDateString()}</td>
+                                                            <td>{user.musicNumber}</td>
+                                                            <td>{user.musicPrice}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    {Array.isArray(user.musicMedia) ? (
+                                                                        user.musicMedia.slice(0, 3).map((img, idx) => (
+                                                                            <img
+                                                                                key={idx}
+                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                alt="Wedding"
+                                                                                className="avatar avatar-md rounded-circle border"
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            />
+                                                                        ))
+                                                                    ) : (
+                                                                        <img
+                                                                            src={typeof user.musicMedia === 'string' ? user.musicMedia : URL.createObjectURL(user.musicMedia)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                        />
+                                                                    )}
+                                                                    {Array.isArray(user.musicMedia) && user.musicMedia.length > 3 && (
+                                                                        <span
+                                                                            className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                            style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                        >
+                                                                            +{user.musicMedia.length - 3}
+                                                                        </span>
+                                                                    )}
+
+                                                                </div>
+                                                            </td>
+                                                            <td>{user.musicDetails}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tr>
+                                            )}
+                                            {planning.length > 0 && (
+                                                <tr onClick={() => { navigate('/photographer') }}>
+                                                    {planning.map((user, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <td>{user.planningName} (Planning & Decor)</td>
+                                                            <td>{new Date(user.planningDate).toLocaleDateString()}</td>
+                                                            <td>{user.planningNumber}</td>
+                                                            <td>{user.planningPrice}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    {Array.isArray(user.planningMedia) ? (
+                                                                        user.planningMedia.slice(0, 3).map((img, idx) => (
+                                                                            <img
+                                                                                key={idx}
+                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                alt="Wedding"
+                                                                                className="avatar avatar-md rounded-circle border"
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            />
+                                                                        ))
+                                                                    ) : (
+                                                                        <img
+                                                                            src={typeof user.planningMedia === 'string' ? user.planningMedia : URL.createObjectURL(user.planningMedia)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                        />
+                                                                    )}
+                                                                    {Array.isArray(user.planningMedia) && user.planningMedia.length > 3 && (
+                                                                        <span
+                                                                            className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                            style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                        >
+                                                                            +{user.planningMedia.length - 3}
+                                                                        </span>
+                                                                    )}
+
+                                                                </div>
+                                                            </td>
+                                                            <td>{user.planningDetails}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tr>
+                                            )}
+                                            {photographersFd.length > 0 && (
+                                                <tr onClick={() => { navigate('/photographer') }}>
+                                                    {photographersFd.map((user, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <td>{user.foodName} (Food)</td>
+                                                            <td>{new Date(user.foodDate ).toLocaleDateString()}</td>
+                                                            <td>{user.foodNumber}</td>
+                                                            <td>{user.foodPrice}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    {Array.isArray(user.foodMedia) ? (
+                                                                        user.foodMedia.slice(0, 3).map((img, idx) => (
+                                                                            <img
+                                                                                key={idx}
+                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                alt="Wedding"
+                                                                                className="avatar avatar-md rounded-circle border"
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            />
+                                                                        ))
+                                                                    ) : (
+                                                                        <img
+                                                                            src={typeof user.foodMedia === 'string' ? user.foodMedia : URL.createObjectURL(user.foodMedia)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                        />
+                                                                    )}
+                                                                    {Array.isArray(user.foodMedia) && user.foodMedia.length > 3 && (
+                                                                        <span
+                                                                            className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                            style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                        >
+                                                                            +{user.foodMedia.length - 3}
+                                                                        </span>
+                                                                    )}
+
+                                                                </div>
+                                                            </td>
+                                                            <td>{user.foodDetails}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tr>
+                                            )}
                                         </tbody>
+
                                     </table>
                                 </div>
                                 <div class="card-footer border-0 py-5">

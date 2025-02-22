@@ -198,8 +198,8 @@ const Service = () => {
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Image</th>
-                                                <th>Action</th>
                                                 <th></th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
 
@@ -210,6 +210,7 @@ const Service = () => {
                                                         <td>{photographer.serviceName}</td>
                                                         <td>{photographer.serviceDes}</td>
                                                         <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.serviceImage}</td>
+                                                        <td></td>
                                                         <td>
                                                             {/* <button className="btn btn-sm btn-neutral">View</button> */}
                                                             <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
@@ -254,7 +255,7 @@ const Service = () => {
                                     <button className='button_primary_contect p-3 rounded-10 d-flex gap-4 justify-content-center align-items-center' style={{ width: '100%' }}><FontAwesomeIcon icon={faPhone} />View Contact</button>
                                 </div>
 
-                                <form className="mt-5">
+                                <div className="mt-5">
                                     <div className="d-flex gap-3">
                                         <div style={{ width: '100%' }}>
                                             <input type="text" className="form-control" placeholder="Name" style={{ width: "100%" }} value={serviceName}
@@ -349,7 +350,7 @@ const Service = () => {
 
                                         {/* <button className="btn button_primary mt-5 mb-5" style={{ width: '100%' }} onClick={handleSubmit}>Check Availability & Prices</button> */}
                                     </div>
-                                </form>
+                                </div>
                             </div>
 
                         </div>
