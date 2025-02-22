@@ -52,7 +52,7 @@ const User = () => {
                                     <div class="col-sm-6 col-12 mb-4 mb-sm-0">
                                         <h1 class="h2 mb-0 ls-tight">Users</h1>
                                     </div>
-                                    <div class="col-sm-6 col-12 text-sm-end">
+                                    {/* <div class="col-sm-6 col-12 text-sm-end">
                                         <div class="mx-n1">
                                             <a href="#" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
                                                 <span class=" pe-2">
@@ -67,7 +67,7 @@ const User = () => {
                                                 <span>Create</span>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                             </div>

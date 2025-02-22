@@ -253,22 +253,52 @@ const MusicDance = () => {
 
                     <tbody>
                       {photographers.length > 0 ? (
-                        photographers.map((photographer, index) => (
+                        photographers.map((photographers, index) => (
                           <tr key={index}>
-                            <td>{photographer.musicName}</td>
-                            <td>{new Date(photographer.musicDate).toLocaleDateString()}</td>
-                            <td>{photographer.musicEmail}</td>
-                            <td>{photographer.musicNumber}</td>
-                            <td>${photographer.musicPrice}</td>
-                            <td>{photographer.musicPriceInfo}</td>
-                            <td>{photographer.musicDetails}</td>
-                            <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.musicMedia}</td>
+                            <td>{photographers.musicName}</td>
+                            <td>{new Date(photographers.musicDate).toLocaleDateString()}</td>
+                            <td>{photographers.musicEmail}</td>
+                            <td>{photographers.musicNumber}</td>
+                            <td>${photographers.musicPrice}</td>
+                            <td>{photographers.musicPriceInfo}</td>
+                            <td>{photographers.musicDetails}</td>
+                            {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.musicMedia}</td> */}
+                            <td style={{ minWidth: '195px' }}>
+                              <div className="d-flex align-items-center">
+                                {Array.isArray(photographers.musicMedia) ? (
+                                  photographers.musicMedia.slice(0, 3).map((img, idx) => (
+                                    <img
+                                      key={idx}
+                                      src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
+                                      alt="Wedding"
+                                      className="avatar avatar-md rounded-circle border"
+                                      style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
+                                    />
+                                  ))
+                                ) : (
+                                  <img
+                                    src={typeof photographers.musicMedia === 'string' ? photographers.musicMedia : URL.createObjectURL(photographers.musicMedia)}
+                                    alt="Wedding"
+                                    className="avatar avatar-md rounded-circle border"
+                                    style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                  />
+                                )}
+                                {Array.isArray(photographers.musicMedia) && photographers.musicMedia.length > 3 && (
+                                  <span
+                                    className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                    style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                  >
+                                    +{photographers.musicMedia.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
                             <td>
-                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
+                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographers)}>  <span class=" pe-2">
                                 <i class="bi bi-pencil"></i>
                               </span>
                                 <span>Edit</span></button>
-                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographer.id)}>Delete</button>
+                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographers.id)}>Delete</button>
                             </td>
                           </tr>
                         ))

@@ -230,16 +230,16 @@ const RealWedding = () => {
                                                         <td>{new Date(photographer.realWeddingDate).toLocaleDateString()}</td>
                                                         <td>{photographer.realWeddingDes}</td>
                                                         {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.realWeddingImage}</td> */}
-                                                        <td>
+                                                        <td style={{ minWidth: '195px' }}>
                                                             <div className="d-flex align-items-center">
                                                                 {Array.isArray(photographer.realWeddingImage) ? (
                                                                     photographer.realWeddingImage.slice(0, 3).map((img, idx) => (
                                                                         <img
                                                                             key={idx}
-                                                                            src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                            src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                             alt="Wedding"
                                                                             className="avatar avatar-md rounded-circle border"
-                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                         />
                                                                     ))
                                                                 ) : (

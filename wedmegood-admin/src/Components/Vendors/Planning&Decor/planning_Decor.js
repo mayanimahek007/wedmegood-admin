@@ -253,22 +253,52 @@ const PlanningDecor = () => {
 
                     <tbody>
                       {photographers.length > 0 ? (
-                        photographers.map((photographer, index) => (
+                        photographers.map((photographers, index) => (
                           <tr key={index}>
-                            <td>{photographer.planningName}</td>
-                            <td>{new Date(photographer.planningDate).toLocaleDateString()}</td>
-                            <td>{photographer.planningEmail}</td>
-                            <td>{photographer.planningNumber}</td>
-                            <td>${photographer.planningPrice}</td>
-                            <td>{photographer.planningPriceInfo}</td>
-                            <td>{photographer.planningDetails}</td>
-                            <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.planningMedia}</td>
+                            <td>{photographers.planningName}</td>
+                            <td>{new Date(photographers.planningDate).toLocaleDateString()}</td>
+                            <td>{photographers.planningEmail}</td>
+                            <td>{photographers.planningNumber}</td>
+                            <td>${photographers.planningPrice}</td>
+                            <td>{photographers.planningPriceInfo}</td>
+                            <td>{photographers.planningDetails}</td>
+                            {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.planningMedia}</td> */}
+                            <td style={{ minWidth: '195px' }}>
+                              <div className="d-flex align-items-center">
+                                {Array.isArray(photographers.planningMedia) ? (
+                                  photographers.planningMedia.slice(0, 3).map((img, idx) => (
+                                    <img
+                                      key={idx}
+                                      src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
+                                      alt="Wedding"
+                                      className="avatar avatar-md rounded-circle border"
+                                      style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
+                                    />
+                                  ))
+                                ) : (
+                                  <img
+                                    src={typeof photographers.planningMedia === 'string' ? photographers.planningMedia : URL.createObjectURL(photographers.planningMedia)}
+                                    alt="Wedding"
+                                    className="avatar avatar-md rounded-circle border"
+                                    style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                  />
+                                )}
+                                {Array.isArray(photographers.planningMedia) && photographers.planningMedia.length > 3 && (
+                                  <span
+                                    className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                    style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                  >
+                                    +{photographers.planningMedia.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
                             <td>
-                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
+                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographers)}>  <span class=" pe-2">
                                 <i class="bi bi-pencil"></i>
                               </span>
                                 <span>Edit</span></button>
-                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographer.id)}>Delete</button>
+                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographers.id)}>Delete</button>
                             </td>
                           </tr>
                         ))

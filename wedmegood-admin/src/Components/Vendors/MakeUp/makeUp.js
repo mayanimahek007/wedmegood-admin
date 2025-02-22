@@ -171,7 +171,7 @@ const MakeUp = () => {
       });
 
       if (res.status === 200) {
-        getPhotographerData(); 
+        getPhotographerData();
         clearVal()
         setShowModal(false);
       } else {
@@ -253,22 +253,52 @@ const MakeUp = () => {
 
                     <tbody>
                       {photographers.length > 0 ? (
-                        photographers.map((photographer, index) => (
+                        photographers.map((photographers, index) => (
                           <tr key={index}>
-                            <td>{photographer.makeupName}</td>
-                            <td>{new Date(photographer.makeupDate).toLocaleDateString()}</td>
-                            <td>{photographer.makeupEmail}</td>
-                            <td>{photographer.makeupNumber}</td>
-                            <td>${photographer.makeupPrice}</td>
-                            <td>{photographer.makeupPriceInfo}</td>
-                            <td>{photographer.makeupDetails}</td>
-                            <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.makeupMedia}</td>
+                            <td>{photographers.makeupName}</td>
+                            <td>{new Date(photographers.makeupDate).toLocaleDateString()}</td>
+                            <td>{photographers.makeupEmail}</td>
+                            <td>{photographers.makeupNumber}</td>
+                            <td>${photographers.makeupPrice}</td>
+                            <td>{photographers.makeupPriceInfo}</td>
+                            <td>{photographers.makeupDetails}</td>
+                            <td style={{ minWidth: '195px' }}>
+                              <div className="d-flex align-items-center">
+                                {Array.isArray(photographers.makeupMedia) ? (
+                                  photographers.makeupMedia.slice(0, 3).map((img, idx) => (
+                                    <img
+                                      key={idx}
+                                      src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
+                                      alt="Wedding"
+                                      className="avatar avatar-md rounded-circle border"
+                                      style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
+                                    />
+                                  ))
+                                ) : (
+                                  <img
+                                    src={typeof photographers.makeupMedia === 'string' ? photographers.makeupMedia : URL.createObjectURL(photographers.makeupMedia)}
+                                    alt="Wedding"
+                                    className="avatar avatar-md rounded-circle border"
+                                    style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                  />
+                                )}
+                                {Array.isArray(photographers.makeupMedia) && photographers.makeupMedia.length > 3 && (
+                                  <span
+                                    className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                    style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                  >
+                                    +{photographers.makeupMedia.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.makeupMedia}</td> */}
                             <td>
-                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
+                              <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographers)}>  <span class=" pe-2">
                                 <i class="bi bi-pencil"></i>
                               </span>
                                 <span>Edit</span></button>
-                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographer.id)}>Delete</button>
+                              <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographers.id)}>Delete</button>
                             </td>
                           </tr>
                         ))

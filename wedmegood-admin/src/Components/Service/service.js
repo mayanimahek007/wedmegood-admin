@@ -204,21 +204,51 @@ const Service = () => {
                                         </thead>
 
                                         <tbody>
-                                            {service.length > 0 ? ( 
-                                                service.map((photographer, index) => (
+                                            {service.length > 0 ? (
+                                                service.map((photographers, index) => (
                                                     <tr key={index}>
-                                                        <td>{photographer.serviceName}</td>
-                                                        <td>{photographer.serviceDes}</td>
-                                                        <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.serviceImage}</td>
+                                                        <td>{photographers.serviceName}</td>
+                                                        <td>{photographers.serviceDes}</td>
+                                                        {/* <td className="text-truncate" style={{ maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{photographer.serviceImage}</td> */}
+                                                        <td>
+                                                            <div className="d-flex align-items-center">
+                                                                {Array.isArray(photographers.serviceImage) ? (
+                                                                    photographers.serviceImage.slice(0, 3).map((img, idx) => (
+                                                                        <img
+                                                                            key={idx}
+                                                                            src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
+                                                                            alt="Wedding"
+                                                                            className="avatar avatar-md rounded-circle border"
+                                                                            style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
+                                                                        />
+                                                                    ))
+                                                                ) : (
+                                                                    <img
+                                                                        src={typeof photographers.serviceImage === 'string' ? photographers.serviceImage : URL.createObjectURL(photographers.serviceImage)}
+                                                                        alt="Wedding"
+                                                                        className="avatar avatar-md rounded-circle border"
+                                                                        style={{ width: "40px", height: "40px", objectFit: "cover", border: "2px solid #fff" }}
+                                                                    />
+                                                                )}
+                                                                {Array.isArray(photographers.serviceImage) && photographers.serviceImage.length > 3 && (
+                                                                    <span
+                                                                        className="avatar avatar-md rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                                                                        style={{ width: "40px", height: "40px", fontSize: "14px", marginLeft: "5px" }}
+                                                                    >
+                                                                        +{photographers.serviceImage.length - 3}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </td>
                                                         <td></td>
                                                         <td>
                                                             {/* <button className="btn btn-sm btn-neutral">View</button> */}
-                                                            <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>  <span class=" pe-2">
+                                                            <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographers)}>  <span class=" pe-2">
                                                                 <i class="bi bi-pencil"></i>
                                                             </span>
                                                                 <span>Edit</span></button>
                                                             {/* <button className="btn btn-sm btn-neutral" onClick={() => handleEdit(photographer)}>View</button> */}
-                                                            <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographer.id)}>Delete</button>
+                                                            <button className="btn btn-sm btn-danger ms-2" onClick={() => deletePhotographer(photographers.id)}>Delete</button>
                                                         </td>
                                                     </tr>
                                                 ))

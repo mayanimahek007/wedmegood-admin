@@ -294,7 +294,7 @@ const Dashboard = () => {
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
-                                                        <i class="bi bi-clock-history"></i>
+                                                    <i class="bi bi-gear-fill"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -337,16 +337,16 @@ const Dashboard = () => {
                                                             <td>{new Date(user.makeupDate).toLocaleDateString()}</td>
                                                             <td>{user.makeupNumber}</td>
                                                             <td>{user.makeupPrice}</td>
-                                                            <td>
+                                                            <td style={{ minWidth: '195px' }}>
                                                                 <div className="d-flex align-items-center">
                                                                     {Array.isArray(user.makeupMedia) ? (
                                                                         user.makeupMedia.slice(0, 3).map((img, idx) => (
                                                                             <img
                                                                                 key={idx}
-                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                                 alt="Wedding"
                                                                                 className="avatar avatar-md rounded-circle border"
-                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                             />
                                                                         ))
                                                                     ) : (
@@ -390,10 +390,10 @@ const Dashboard = () => {
                                                                         user.photographerMedia.slice(0, 3).map((img, idx) => (
                                                                             <img
                                                                                 key={idx}
-                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                                 alt="Wedding"
                                                                                 className="avatar avatar-md rounded-circle border"
-                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                             />
                                                                         ))
                                                                     ) : (
@@ -436,10 +436,10 @@ const Dashboard = () => {
                                                                         user.musicMedia.slice(0, 3).map((img, idx) => (
                                                                             <img
                                                                                 key={idx}
-                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                                 alt="Wedding"
                                                                                 className="avatar avatar-md rounded-circle border"
-                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                             />
                                                                         ))
                                                                     ) : (
@@ -482,10 +482,10 @@ const Dashboard = () => {
                                                                         user.planningMedia.slice(0, 3).map((img, idx) => (
                                                                             <img
                                                                                 key={idx}
-                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                                 alt="Wedding"
                                                                                 className="avatar avatar-md rounded-circle border"
-                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                             />
                                                                         ))
                                                                     ) : (
@@ -528,10 +528,10 @@ const Dashboard = () => {
                                                                         user.foodMedia.slice(0, 3).map((img, idx) => (
                                                                             <img
                                                                                 key={idx}
-                                                                                src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                                                                src={typeof img === 'string' ? `http://localhost:3000/${img}` : URL.createObjectURL(img)}
                                                                                 alt="Wedding"
                                                                                 className="avatar avatar-md rounded-circle border"
-                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-8px", border: "2px solid #fff" }}
+                                                                                style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "-10px", border: "2px solid #fff" }}
                                                                             />
                                                                         ))
                                                                     ) : (
